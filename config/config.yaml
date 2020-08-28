@@ -1,0 +1,24 @@
+ni_mon:
+  host: http://<ni_mon_ip>:<ni_mon_port>    # Configure here to interact with a monitoring module
+ni_nfvo:
+  host: http://<ni_nfvo_ip>:<ni_nfvo_port>  # Configure here to interact with an NFVO module
+instance:                                   # Information of new instance created by a scale-out action
+  id: <instance_ssh_id>                     # SSH ID of new VNF instance
+  password: <instance_ssh_pw>               # SSH ID of new VNF instance
+  prefix_splitter: '-'                      # Prefix to classify VNF instance name
+  max_number: 5                             # Maximum number of VNF instances allowed in each tier
+  min_number: 1                             # Minimum number of VNF instances allowed in each tier
+sla_monitoring:                             # To access traffic generator and create traffic
+  src: <IP of traffic generator>            # IP of traffic generator (can be an instance in OpenStack)
+  ssh_id: <ssh_id of the traffic generator> # SSH ID of traffic generator
+  ssh_pw: <ssh_pw of the traffic generator> # SSH PW of traffic generator
+  num_requests: 100                         # Number of messages (This module generates HTTP messages)
+  dst: <IP of destination>                  # Destination of traffic
+image:                                      # Image IDs used by OpenStack
+  firewall: <OpenStack Image ID>
+  flowmonitor: <OpenStack Image ID>
+  dpi: <OpenStack Image ID>
+  ids: <OpenStack Image ID>
+  proxy: <OpenStack Image ID>
+flavor:                                     # Flavor ID used by OpenStack
+  default: <OpenStack Flavor ID>

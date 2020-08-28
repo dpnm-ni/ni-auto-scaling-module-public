@@ -1,0 +1,164 @@
+---
+swagger: "2.0"
+info:
+  description: "NI Auto-Scaling Module for the NI project."
+  version: "1.0.0"
+  title: "NI Auto-Scaling Module"
+tags:
+- name: "ni_auto_scaling_module"
+  description: "Perform management decisions using ML algorithms."
+schemes:
+- "https"
+- "http"
+paths:
+  /get_all_scaling:
+    get:
+      tags:
+      - "Auto-Scaling APIs"
+      summary: "Get all scaling processes that are currently active"
+      operationId: "get_all_scaling"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        "200":
+          description: "Success."
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Threshold_ScalingInfo"
+      x-swagger-router-controller: "server.controllers.default_controller"
+  /get_scaling/{name}:
+    get:
+      tags:
+      - "Auto-Scaling APIs"
+      summary: "Get an active Scaling process"
+      operationId: "get_scaling"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "name"
+        in: "path"
+        description: "The name of the scaling"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Success."
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Threshold_ScalingInfo"
+      x-swagger-router-controller: "server.controllers.default_controller"
+  /create_scaling/threshold:
+    post:
+      tags:
+      - "Auto-Scaling APIs"
+      summary: "Auto-Scaling based on threshold"
+      description: ""
+      operationId: "create_threshold_scaling"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Scaling Info. should be inserted"
+        required: true
+        schema:
+          $ref: "#/definitions/Threshold_ScalingInfo"
+      responses:
+        "200":
+          description: "Success."
+          schema:
+            type: "string"
+        "400":
+          description: "Invalid parameters supplied."
+      x-swagger-router-controller: "server.controllers.default_controller"
+  /create_scaling/dqn:
+    post:
+      tags:
+      - "Auto-Scaling APIs"
+      summary: "Auto-Scaling based on DQN"
+      description: ""
+      operationId: "create_dqn_scaling"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Scaling Info. should be inserted"
+        required: true
+        schema:
+          $ref: "#/definitions/DQN_ScalingInfo"
+      responses:
+        "200":
+          description: "Success."
+          schema:
+            type: "string"
+        "400":
+          description: "Invalid parameters supplied."
+      x-swagger-router-controller: "server.controllers.default_controller"
+  /delete_scaling/{name}:
+    delete:
+      tags:
+      - "Auto-Scaling APIs"
+      summary: "Delete a scaling process"
+      description: ""
+      operationId: "delete_scaling"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "name"
+        in: "path"
+        description: "scaling name"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "Success."
+      x-swagger-router-controller: "server.controllers.default_controller"
+definitions:
+  Threshold_ScalingInfo:
+    type: "object"
+    properties:
+      sfc_name:
+        type: "string"
+      scaling_name:
+        type: "string"
+      threshold_in:
+        type: "number"
+        minimum: 0
+      threshold_out:
+        type: "number"
+        minimum: 0
+      interval:
+        type: "number"
+        minimum: 0
+      duration:
+        type: "number"
+        minimum: 0
+  DQN_ScalingInfo:
+    type: "object"
+    properties:
+      sfc_name:
+        type: "string"
+      scaling_name:
+        type: "string"
+      slo:
+        type: "number"
+        minimum: 0
+      interval:
+        type: "number"
+        minimum: 0
+      duration:
+        type: "number"
+        minimum: 0
+      has_dataset:
+        type: "boolean"
+externalDocs:
+  description: "Find out more about DPNM NI."
+  url: "http://dpnm.postech.ac.kr/"
